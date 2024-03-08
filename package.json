@@ -4,7 +4,7 @@
   "description": "",
   "main": "script.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -14,6 +14,7 @@
     "cheerio": "^1.0.0-rc.12",
     "express": "^4.18.3",
     "googleapis": "^133.0.0",
+    "nodemon": "^3.1.0",
     "puppeteer-core": "^22.4.0"
   }
 }
