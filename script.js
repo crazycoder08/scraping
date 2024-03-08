@@ -251,6 +251,26 @@ const COUNTRIES = [
   { name: "Zimbabwe", code: "ZW" },
 ];
 
+const forceNewUrl = (string, base) => {
+  try {
+    return new URL(string, base);
+  } catch (e) {
+    return null;
+  }
+};
+
+let shortNumberToLong = (str) => {
+  if (!str && str !== 0) return null;
+  if (+str === 0) return 0;
+  const s = str
+    .toString()
+    .toUpperCase()
+    ?.replace(/[0-9., ]/g, "");
+  const d = +str.toString().replace(/[^0-9.]/g, "") || 0;
+  const e = { K: 1e3, M: 1e6, B: 1e9, T: 1e12 }[s] || 1;
+  return d * e;
+};
+
 async function main(url) {
   console.log("Connecting to Scraping Browser...");
   const browser = await puppeteer.connect({
@@ -265,9 +285,13 @@ async function main(url) {
     // CAPTCHA handling: If you're expecting a CAPTCHA on the target page, use the following code snippet to check the status of Scraping Browser's automatic CAPTCHA solver
     const client = await page.createCDPSession();
     console.log("Waiting captcha to solve...");
-    const { status } = await client.send("Captcha.waitForSolve", {
-      detectTimeout: 10000,
-    });
+    const { status } = await client
+      .send("Captcha.waitForSolve", {
+        detectTimeout: 10000,
+      })
+      .catch((e) => {
+        main(url);
+      });
     console.log("Captcha solve status:", status);
     console.log("Navigated! Scraping page content...");
     const html = await page.content();
@@ -608,28 +632,6 @@ async function main(url) {
       .filter((e) => e)
       .reduce((acc, e, idx, arr) => (arr.length ? arr : null), null);
 
-    const forceNumber = (data) => (isNaN(data) ? 0 : +data);
-    const forceNewUrl = (string, base) => {
-      try {
-        return new URL(string, base);
-      } catch (e) {
-        return null;
-      }
-    };
-
-    let shortNumberToLong = (str) => {
-      if (!str && str !== 0) return null;
-      if (+str === 0) return 0;
-      const s = str
-        .toString()
-        .toUpperCase()
-        ?.replace(/[0-9., ]/g, "");
-      const d = +str.toString().replace(/[^0-9.]/g, "") || 0;
-      const e = { K: 1e3, M: 1e6, B: 1e9, T: 1e12 }[s] || 1;
-      return d * e;
-    };
-
-    let script = {};
     try {
       let script_text = $('script[type="application/ld+json"]').html();
       script = JSON.parse(script_text || "{}");
@@ -904,31 +906,6 @@ async function main(url) {
         .text();
     let geoArr = geo?.split(",")?.map((v) => trim(v));
 
-    let current_company = {
-      link: URL_(
-        $(
-          '[data-section="currentPositionsDetails"] [data-test-id="top-card-link"], [data-section="currentPositionsDetails"] .top-card-link, [data-section="pastPositionsDetails"] [data-test-id="top-card-link"], [data-section="pastPositionsDetails"] .top-card-link'
-        ).attr("href")
-      ),
-      name: $(
-        '[data-section="currentPositionsDetails"] [data-test-id="top-card-link"], [data-section="currentPositionsDetails"] .top-card-link, [data-section="pastPositionsDetails"] [data-test-id="top-card-link"], [data-section="pastPositionsDetails"] .top-card-link'
-      ).text(),
-      company_id: $(
-        '[data-section="currentPositionsDetails"] [data-test-id="top-card-link"], [data-section="currentPositionsDetails"] .top-card-link, [data-section="pastPositionsDetails"] [data-test-id="top-card-link"], [data-section="pastPositionsDetails"] .top-card-link'
-      )
-        .attr("href")
-        ?.match(/linkedin.com\/company\/(.*)/)?.[1]
-        .split("?")?.[0],
-      industry: $(
-        '[data-section="currentPositionsDetails"] [data-test-id="top-card-link"], [data-section="currentPositionsDetails"] .top-card-link, [data-section="pastPositionsDetails"] [data-test-id="top-card-link"], [data-section="pastPositionsDetails"] .top-card-link'
-      ).text(),
-      title: $(
-        '[data-section="currentPositionsDetails"] [data-test-id="top-card-link"], [data-section="currentPositionsDetails"] .top-card-link, [data-section="pastPositionsDetails"] [data-test-id="top-card-link"], [data-section="pastPositionsDetails"] .top-card-link'
-      ).text()
-        ? position
-        : null,
-    };
-
     let recommendations = $(
       '[data-section="recommendations"] .recommendations__list-item, [data-section="recommendations"] li'
     )
@@ -1099,7 +1076,7 @@ async function main(url) {
       country_code, // country_code
     ];
     await writeData(resultArray);
-    const resultJson = JSON.stringify(resultArray, null, 2);
+    // const resultJson = JSON.stringify(resultArray, null, 2);
     // Write the JSON string to the result.txt file
     // fs.writeFile("result.txt", resultJson, "utf8", (err) => {
     //   if (err) {
@@ -1108,6 +1085,8 @@ async function main(url) {
     //     console.log("ResultArray values have been stored in result.txt");
     //   }
     // });
+  } catch {
+    console.log("please try again later...");
   } finally {
     await browser.close();
   }
