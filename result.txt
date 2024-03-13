@@ -1,0 +1,130 @@
+{
+  "id": "tocalai",
+  "url": "https://au.linkedin.com/in/tocalai",
+  "locale": "en_US",
+  "name": "Danny Lai",
+  "current_company": {
+    "link": "https://www.linkedin.com/company/kingston?trk=public_profile_topcard-current-company",
+    "name": "\n        \n        \n      \n  \n      \n        Kingston Technology\n      \n    \n      ",
+    "company_id": "kingston",
+    "industry": "\n        \n        \n      \n  \n      \n        Kingston Technology\n      \n    \n      ",
+    "title": ""
+  },
+  "avatar": "https://static.licdn.com/aero-v1/sc/h/9c8pery4andzj6ohjkjp54ma2",
+  "city": null,
+  "region": "\n          Australia\n          \n            Contact Info\n          \n      ",
+  "position": "",
+  "followers": 221,
+  "connections": 221,
+  "educations_details": "\n                \n    \n      \n        \n        \n      \n  \n      \n        National Kaohsiung First University of Science and Technology\n      \n    \n      \n  \n  \n              ",
+  "education": null,
+  "people_also_viewed": [
+    {
+      "profile_link": "https://tw.linkedin.com/in/lars-liu-b572b7185?trk=public_profile_browsemap-profile"
+    },
+    {
+      "profile_link": "https://tw.linkedin.com/in/terry-tsai?trk=public_profile_browsemap-profile"
+    },
+    {
+      "profile_link": "https://cn.linkedin.com/in/howy-shu-8a199b61?trk=public_profile_browsemap-profile"
+    },
+    {
+      "profile_link": "https://in.linkedin.com/in/pratik-rikame-41997740?trk=public_profile_browsemap-profile"
+    },
+    {
+      "profile_link": "https://vn.linkedin.com/in/nhon-nguyen-5b013a157?trk=public_profile_browsemap-profile"
+    },
+    {
+      "profile_link": "https://www.linkedin.com/in/mikealpha?trk=public_profile_browsemap-profile"
+    },
+    {
+      "profile_link": "https://www.linkedin.com/in/mikerodriguezx?trk=public_profile_browsemap-profile"
+    },
+    {
+      "profile_link": "https://jp.linkedin.com/in/jade-ohta?trk=public_profile_browsemap-profile"
+    },
+    {
+      "profile_link": "https://vn.linkedin.com/in/tranbaquan?trk=public_profile_browsemap-profile"
+    },
+    {
+      "profile_link": "https://vn.linkedin.com/in/son-le-73960aa8?trk=public_profile_browsemap-profile"
+    },
+    {
+      "profile_link": "https://tw.linkedin.com/in/modi-shih?trk=public_profile_browsemap-profile"
+    },
+    {
+      "profile_link": "https://sg.linkedin.com/in/nghia-huynh-2409?trk=public_profile_browsemap-profile"
+    },
+    {
+      "profile_link": "https://tw.linkedin.com/in/%E6%9F%8F%E7%AF%81-%E9%82%B1-b1a71a144?trk=public_profile_browsemap-profile"
+    },
+    {
+      "profile_link": "https://uk.linkedin.com/in/jaimie-withers-9b720815b?trk=public_profile_browsemap-profile"
+    },
+    {
+      "profile_link": "https://tw.linkedin.com/in/han-pin-wang-ab178284?trk=public_profile_browsemap-profile"
+    },
+    {
+      "profile_link": "https://vn.linkedin.com/in/howard-pham-vn?trk=public_profile_browsemap-profile"
+    },
+    {
+      "profile_link": "https://jp.linkedin.com/in/jun-tomioka-0ab38687?trk=public_profile_browsemap-profile"
+    },
+    {
+      "profile_link": "https://jp.linkedin.com/in/alexander-huang?trk=public_profile_browsemap-profile"
+    },
+    {
+      "profile_link": "https://cn.linkedin.com/in/ysmood?trk=public_profile_browsemap-profile"
+    },
+    {
+      "profile_link": "https://jp.linkedin.com/in/eimon-lwin-208b92114?trk=public_profile_browsemap-profile"
+    }
+  ],
+  "locations": [
+    "Australia Contact Info Sign in to view Danny’s full profile Sign in Welcome back Email or phone Password Show Forgot password? Sign in or By clicking Continue, you agree to LinkedIn’s User Agreement, Privacy Policy, and Cookie Policy. Continue with GoogleContinue with Google New to LinkedIn? Join now or By clicking Continue, you agree to LinkedIn’s User Agreement, Privacy Policy, and Cookie Policy. Continue with GoogleContinue with Google New to LinkedIn? Join now 221 followers 221 connections"
+  ],
+  "current_company_name": "\n        \n        \n      \n  \n      \n        Kingston Technology\n      \n    \n      ",
+  "current_company_company_id": "kingston",
+  "country_code": "AU",
+  "about": "I specialize in back-end development and have extensive experience in socket programming,…",
+  "input_url": "https://www.linkedin.com/in/tocalai",
+  "posts": null,
+  "experience": null,
+  "certifications": null,
+  "courses": null,
+  "languages": [
+    {
+      "title": " English ",
+      "subtitle": " Professional working proficiency ",
+      "meta": " "
+    },
+    {
+      "title": " Chinese ",
+      "subtitle": " Native or bilingual proficiency ",
+      "meta": " "
+    }
+  ],
+  "groups": null,
+  "activities": null,
+  "volunteer_experience": [
+    {
+      "title": "Volunteer",
+      "subtitle": "The Garden of Hope Foundation",
+      "cause": "Disaster and Humanitarian Relief",
+      "duration": null,
+      "duration_short": null,
+      "start_date": null,
+      "end_date": null,
+      "info": ""
+    }
+  ],
+  "recommendations": null,
+  "recommendations_count": null,
+  "patents": null,
+  "publications": null,
+  "awards": null,
+  "canonical_url": "https://au.linkedin.com/in/tocalai",
+  "skills": null,
+  "organizations": null,
+  "projects": null
+}

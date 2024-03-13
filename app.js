@@ -13,11 +13,25 @@ app.get("/api/scrape", async (req, res) => {
       return res.status(400).json({ error: "URL parameter is required." });
     }
 
-    await main(url);
-    res.json({ message: "Scraping is done!" });
+    let profileRes = await main(url);
+
+    if (profileRes.status == 200){
+      console.log(profileRes.message);
+      console.log("*****************************************");
+      return res.json(profileRes);
+    }else{
+      console.log(profileRes.message);
+      console.log("********************==*********************");
+      let response = {
+        status: profileRes.status,
+        message: profileRes.message,
+      };
+      return response;
+    }
   } catch (error) {
     console.error("Error while scraping:", error);
-    res.status(500).json({ error: "Internal server error." });
+    console.error("*****************************************");
+    return res.status(500).json({ message: "Internal server might be down, please try again." });
   }
 });
 
