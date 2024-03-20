@@ -65,6 +65,10 @@ async function main(url) {
         });
       console.log("Captcha solve status:", status);
       console.log("Navigated! Scraping page content...");
+      
+      // console.log('Navigated! Taking page screenshot to page.png...');
+      // await page.screenshot({ path: './page.png', fullPage: true });
+
       const html = await page.content();
 
       // Parse HTML using Cheerio
@@ -857,8 +861,8 @@ async function main(url) {
         input_url: url ?? "",
         posts: data.posts ?? "",
         experience: worksFor ?? "",
-        certifications: certifications ?? "",
-        courses: courses ?? "",
+        certifications: certifications ? certifications.title : "",
+        courses: courses ? courses.title : "",
         languages: languages ?? "",
         groups: data.groups ?? "",
         activities: data.activities ?? "",
