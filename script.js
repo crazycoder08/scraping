@@ -42,7 +42,8 @@ async function main(url) {
   } catch (error) {
     return {
       status: 500,
-      message: 'Connecting time-out please try again!'
+      title: "Warning!",
+      message: 'Connection timeout or internal server might be down. Please ensure your IP is whitelisted and try again.'
     };
   }
 
@@ -70,6 +71,14 @@ async function main(url) {
       // await page.screenshot({ path: './page.png', fullPage: true });
 
       const html = await page.content();
+
+      // fs.writeFile("file.html", html, "utf8", (err) => {
+      //   if (err) {
+      //     console.error("Error writing to file:", err);
+      //   } else {
+      //     console.log("ResultArray values have been stored in file.html");
+      //   }
+      // });
 
       // Parse HTML using Cheerio
       const $ = cheerio.load(html);
@@ -199,59 +208,47 @@ async function main(url) {
         )
         .filter((e) => e)
         .reduce((acc, e, idx, arr) => (arr.length ? arr : null), null);
-      let certifications = $(
-        '[data-section="certifications"] li.profile-section-card'
-      )
+      
+      let certifications = $('[data-section="certifications"] li')
         .toArray()
         .map((e) => ({
           title: $(e)
             .find("h3")
             .text()
-            .replace(/(((?<= )|\n|\r|\t|^ | $)[ \r\t\n]*)/g, ""),
-          subtitle: $(e)
-            .find("h4")
-            .text()
-            .replace(/(((?<= )|\n|\r|\t|^ | $)[ \r\t\n]*)/g, ""),
-          meta: $(e)
-            .find("> div > div")
-            .text()
-            .replace(/(((?<= )|\n|\r|\t|^ | $)[ \r\t\n]*)/g, ""),
-        }))
-        .reduce((acc, e, idx, arr) => (arr.length ? arr : null), null);
+            .trim(),
+        }));
+
+      // Constructing the output string
+      let certificationsFinal = certifications.map((certification) => certification.title).join(', ');
+        
       let courses = $('[data-section="courses"] li')
         .toArray()
         .map((e) => ({
           title: $(e)
             .find("h3")
             .text()
-            .replace(/(((?<= )|\n|\r|\t|^ | $)[ \r\t\n]*)/g, ""),
+            .trim(),
           subtitle: $(e)
             .find("h4")
             .text()
-            .replace(/(((?<= )|\n|\r|\t|^ | $)[ \r\t\n]*)/g, ""),
+            .trim(),
           meta: $(e)
             .find("> div > div")
             .text()
-            .replace(/(((?<= )|\n|\r|\t|^ | $)[ \r\t\n]*)/g, ""),
-        }))
-        .reduce((acc, e, idx, arr) => (arr.length ? arr : null), null);
+            .trim(),
+        }));
+
+      let coursesFinal = courses.map((course) => course.title).join(', ');
+
       let languages = $('[data-section="languages"] li')
         .toArray()
         .map((e) => ({
-          title: $(e)
-            .find("h3")
-            .text()
-            .replace(/(\n|\r|\t| *$|^ *|(?<= )[ \r\t\n]{1,})/g, ""),
-          subtitle: $(e)
-            .find("h4")
-            .text()
-            .replace(/(\n|\r|\t| *$|^ *|(?<= )[ \r\t\n]{1,})/g, ""),
-          meta: $(e)
-            .find("> div > div")
-            .text()
-            .replace(/(\n|\r|\t| *$|^ *|(?<= )[ \r\t\n]{1,})/g, ""),
-        }))
-        .reduce((acc, e, idx, arr) => (arr.length ? arr : null), null);
+          title: $(e).find("h3").text().trim(),
+          subtitle: $(e).find("h4").text().trim(),
+          meta: $(e).find("> div > div").text().trim(),
+        }));
+
+      let languagesFinal = languages.map(lang => lang.title).join(', ');
 
       let publications = []
         .concat(
@@ -386,26 +383,10 @@ async function main(url) {
       let organizations = $('[data-section="organizations"] ul > li')
         .toArray()
         .map((e) => ({
-          title:
-            $(e)
-              .find("h3.leading-regular")
-              .text()
-              .replace(/(((?<= )|\n|\r|\t|^ | $)[ \r\t\n]*)/g, "") || null,
-          membership_type:
-            $(e)
-              .find("h4")
-              .text()
-              .replace(/(((?<= )|\n|\r|\t|^ | $)[ \r\t\n]*)/g, "") || null,
-          ...parse_duration($(e).find("div > span.date-range")),
-          description:
-            $(e)
-              .find(".show-more-less-text p:last-of-type")
-              .text()
-              .replace(/(((?<= )|\n|\r|\t|^ | $)[ \r\t\n]*)/g, "")
-              .replace(/ ?Show (less|more)/g, "") || null,
-        }))
-        .filter((e) => e)
-        .reduce((acc, e, idx, arr) => (arr.length ? arr : null), null);
+          title: $(e).find("h3").text().trim(),
+        }));
+
+      let organizationsFinal = organizations.map(orgz => orgz.title).join(', ');
 
 
 
@@ -507,7 +488,7 @@ async function main(url) {
             };
           }
           return {
-            company: $(e).find("h4")?.text(),
+            company: $(e).find("h4")?.text().trim(),
             company_id: $(e)
               .find("h4 > a")
               ?.attr("href")
@@ -518,12 +499,12 @@ async function main(url) {
               .find(
                 "h3.leading-regular, .result-card__title, .profile-section-card__title"
               )
-              .text(),
+              .text().trim(),
             subtitle: $(e)
               .find(
                 "h4.text-color-text, .result-card__subtitle, .profile-section-card__subtitle"
               )
-              .text(),
+              .text().trim(),
             subtitleURL: URL_(
               $(e)
                 .find(
@@ -533,19 +514,19 @@ async function main(url) {
             ),
             location: $(e)
               .find(".experience-item__location, h4.text-color-text+div>p+p")
-              .text(),
+              .text().trim(),
             description:
               $(e)
                 .find(".show-more-less-text__text--more")
                 .text()
-                ?.replace("Show less", "") ||
+                ?.replace("Show less", "").trim() ||
               $(e)
                 .find(
                   ".show-more-less-text__text--more, .experience-item__description .show-more-less-text, .experience-item__meta-item .show-more-less-text__text--less"
                 )
                 .eq(0)
                 .text()
-                ?.replace("Show more", ""),
+                ?.replace("Show more", "").trim(),
             ...parse_duration(
               $(e).find(
                 "h4.text-color-text+div>p .date-range, .result-card__meta .date-range, .profile-section-card__meta .date-range"
@@ -721,6 +702,14 @@ async function main(url) {
 
       const addressArray = person.address ? person.address : [];
 
+      let awards = $('[data-section="honors-and-awards"] .awards__list > li')
+        .toArray()
+        .map((e) => ({
+          title: $(e).find("h3").text().trim(),
+        }));
+
+      let awardsFinal = awards.map(award => award.title).join(', ');
+
       let data = {
         avatar:
           $(".top-card__profile-image-container img").attr("src") ||
@@ -774,19 +763,6 @@ async function main(url) {
           ).split(" ")[0] ||
           recommendations?.length ||
           null,
-        awards: $('[data-section="awards"] .awards__list > li')
-          .toArray()
-          .map((x) => ({
-            title: trim($(x).find(".profile-section-card__title").text()),
-            issuer: trim($(x).find(".profile-section-card__subtitle").text()),
-            issuedOn: trim($(x).find(".profile-section-card__meta time").text())
-              ? new Date(
-                trim($(x).find(".profile-section-card__meta time").text())
-              ).toISOString()
-              : null,
-            description: null,
-          }))
-          .reduce((acc, e, idx, arr) => (arr.length ? arr : null), null),
         canonical_url: $('link[rel="canonical"]').attr("href"),
         locations: [
           trim($("h3.top-card-layout__first-subline div").eq(0).text()),
@@ -813,7 +789,6 @@ async function main(url) {
           ?.match(/linkedin.com\/company\/(.*)/)?.[1]
           .split("?")?.[0],
         volunteer_experience,
-        organizations,
         patents,
         projects,
       };
@@ -860,10 +835,10 @@ async function main(url) {
         about: about ?? "",
         input_url: url ?? "",
         posts: data.posts ?? "",
-        experience: worksFor ?? "",
-        certifications: certifications ? certifications.title : "",
-        courses: courses ? courses.title : "",
-        languages: languages ?? "",
+        experience: experience ?? "",
+        certifications: certificationsFinal ?? "",
+        courses: coursesFinal ?? "",
+        languages: languagesFinal ?? "",
         groups: data.groups ?? "",
         activities: data.activities ?? "",
         volunteer_experience: volunteer_experience ?? "",
@@ -871,10 +846,10 @@ async function main(url) {
         recommendations_count: data.recommendations_count ?? "",
         patents: patents ?? "",
         publications: publications ?? "",
-        awards: data.awards ?? "",
+        awards: awardsFinal ?? "",
         canonical_url: data.canonical_url ?? "",
         skills: data.skills ?? "",
-        organizations: organizations ?? "",
+        organizations: organizationsFinal ?? "",
         projects: projects ?? "",
       };
 
@@ -898,14 +873,20 @@ async function main(url) {
       // Handle errors that occur during navigation
       var resultArray = {
         status: 500,
-        message: 'Connecting time-out please try again!'
+        title: "Warning",
+        message: 'Unable to navigate to the specified URL!'
       };
       console.error(resultArray.message);
       return resultArray;
     }
   } catch (error) {
-    console.error("Error appending data:", error);
-    throw error; // Re-throw the error for the caller to handle if necessary
+    var resultArray = {
+      status: 500,
+      title: "Warning",
+      message: 'An error occurred while trying to establish a new page!'
+    };
+    console.error(error);
+    return resultArray;
   } finally {
     await browser.close();
   }

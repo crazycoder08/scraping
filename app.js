@@ -1,6 +1,7 @@
 // Import necessary modules
 const express = require("express");
 const main = require("./script");
+const fs = require("fs");
 
 // Create an instance of Express
 const app = express();
@@ -25,13 +26,17 @@ app.get("/api/scrape", async (req, res) => {
       let response = {
         status: profileRes.status,
         message: profileRes.message,
+        title: profileRes.title,
       };
-      return response;
+      return res.json(response);
     }
   } catch (error) {
-    console.error("Error while scraping:", error);
-    console.error("*****************************************");
-    return res.status(500).json({ message: "Internal server might be down, please try again." });
+    let response = {
+      status: 500,
+      title: "Invalid URL!",
+      message: "Failed to retrieve data from the specified URL. Please verify the API URL.",
+    };
+    return res.json(response);
   }
 });
 
